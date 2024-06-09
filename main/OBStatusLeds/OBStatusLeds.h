@@ -12,7 +12,7 @@
 #define RED_STATUS_LED_GPIO     4   //ESP32cam onboard flash led pin
 
 
-static const char *TAG = "OB_STATUS_LEDS";
+static const char *TAG_OB_STATUS_LEDS = "OB_STATUS_LEDS";
 
 //Define enum with all possible status that can be represented by LEDs
 typedef enum
@@ -38,7 +38,7 @@ static void obStatusLeds_task(void *pvParameter);
 */
 static void obStatusLeds_task(void *pvParameter)
 {
-    ESP_LOGI(TAG, "Task created and running.");
+    ESP_LOGI(TAG_OB_STATUS_LEDS, "Task created and running.");
     while(true)
     {
         gpio_set_level(GREEN_STATUS_LED_GPIO,0);
@@ -55,7 +55,7 @@ static void obStatusLeds_task(void *pvParameter)
 */
 void obStatusLeds_init(void)
 {
-    ESP_LOGI(TAG, "Configure Red and Green LEDs GPIOs.");
+    ESP_LOGI(TAG_OB_STATUS_LEDS, "Configure Red and Green LEDs GPIOs.");
     gpio_reset_pin(GREEN_STATUS_LED_GPIO);
     gpio_reset_pin(RED_STATUS_LED_GPIO);
     /* Set the GPIO as a push/pull output */
@@ -70,7 +70,7 @@ void obStatusLeds_init(void)
 */
 void obStatusLeds_setStatus(obStatusLeds_status_t status)
 {
-    ESP_LOGI(TAG, "Set status to %d\n", status);
+    ESP_LOGI(TAG_OB_STATUS_LEDS, "Set status to %d\n", status);
     _status = status;
 }
 

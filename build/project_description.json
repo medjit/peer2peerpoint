@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "peer2peerpoint",
-    "project_version":    "92c2d06-dirty",
+    "project_version":    "d0d7a7c-dirty",
     "project_path":       "/home/jonny/esp/esp_projects/peer2peerpoint",
     "idf_path":           "/home/jonny/esp/esp-idf",
     "build_dir":          "/home/jonny/esp/esp_projects/peer2peerpoint/build",
