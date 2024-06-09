@@ -11,7 +11,7 @@
 #define GREEN_STATUS_LED_GPIO   2   //ESP32dev oboard led pin
 #define RED_STATUS_LED_GPIO     4   //ESP32cam onboard flash led pin
 
-
+//Tag used for logging
 static const char *TAG_OB_STATUS_LEDS = "OB_STATUS_LEDS";
 
 //Define enum with all possible status that can be represented by LEDs

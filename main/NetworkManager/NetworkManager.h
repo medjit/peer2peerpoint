@@ -5,13 +5,15 @@
 #include "freertos/task.h"
 #include "esp_log.h"
 
-
+//Tag used for logging
 static const char *TAG_NETWORK_MANAGER = "NETWORK_MANAGER";
 
-
+//Function prototypes
 void networkManager_init(void);
+static void networkManager_task(void *pvParameter);
 
 
+//Functions
 static void networkManager_task(void *pvParameter)
 {
     ESP_LOGI(TAG_NETWORK_MANAGER, "Task created and running.");
