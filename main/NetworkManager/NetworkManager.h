@@ -22,8 +22,8 @@ static void networkManager_task(void *pvParameter);
 //================================================================
 
 #define CONFIG_STA_CONNECT_TIMEOUT  10000
-#define CONFIG_STA_WIFI_SSID        "test_wifi"
-#define CONFIG_STA_WIFI_PASSWORD    "123456789"
+#define CONFIG_STA_WIFI_SSID        "Black Shadow 2.4GHz"
+#define CONFIG_STA_WIFI_PASSWORD    "123454321"
 #define CONFIG_AP_WIFI_SSID         "PPP"
 #define CONFIG_AP_WIFI_PASSWORD     ""
 #define CONFIG_AP_WIFI_CHANNEL      1

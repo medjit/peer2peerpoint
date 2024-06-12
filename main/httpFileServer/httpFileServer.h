@@ -128,6 +128,15 @@ static esp_err_t hello_get_handler(httpd_req_t *req)
     return ESP_OK;
 }
 
+/* Our URI handler function to be called during GET /uri request */
+esp_err_t get_home_handler(httpd_req_t *req)
+{
+    /* Send a simple response */
+    const char resp[] = "This is home page";
+    httpd_resp_send(req, resp, HTTPD_RESP_USE_STRLEN);
+    return ESP_OK;
+}
+
 static const httpd_uri_t hello = {
     .uri       = "/hello",
     .method    = HTTP_GET,
@@ -135,6 +144,13 @@ static const httpd_uri_t hello = {
     /* Let's pass response string in user
      * context to demonstrate it's usage */
     .user_ctx  = "Hello World!"
+};
+
+static const httpd_uri_t get_home = {
+    .uri       = "/",
+    .method    = HTTP_GET,
+    .handler   = get_home_handler,
+    .user_ctx = NULL
 };
 
 
@@ -184,6 +200,7 @@ static httpd_handle_t start_webserver(void)
         // Set URI handlers
         ESP_LOGI(TAG_HTTP_FILE_SERVER, "Registering URI handlers");
         httpd_register_uri_handler(server, &hello);
+        httpd_register_uri_handler(server, &get_home);
         #if CONFIG_EXAMPLE_BASIC_AUTH
         httpd_register_basic_auth(server);
         #endif
