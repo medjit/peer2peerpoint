@@ -9,7 +9,7 @@
 
 //TODO: change to actual board GPIOs
 #define GREEN_STATUS_LED_GPIO   2   //ESP32dev oboard led pin
-#define RED_STATUS_LED_GPIO     4   //ESP32cam onboard flash led pin
+#define RED_STATUS_LED_GPIO     15   //ESP32cam onboard flash led pin
 
 //Tag used for logging
 static const char *TAG_OB_STATUS_LEDS = "OB_STATUS_LEDS";
@@ -45,6 +45,11 @@ static void obStatusLeds_task(void *pvParameter)
         gpio_set_level(RED_STATUS_LED_GPIO,0);
         vTaskDelay(700 / portTICK_PERIOD_MS);
         gpio_set_level(GREEN_STATUS_LED_GPIO,1);
+        vTaskDelay(50 / portTICK_PERIOD_MS);
+
+        gpio_set_level(GREEN_STATUS_LED_GPIO,0);
+        gpio_set_level(RED_STATUS_LED_GPIO,0);
+        vTaskDelay(700 / portTICK_PERIOD_MS);
         gpio_set_level(RED_STATUS_LED_GPIO,1);
         vTaskDelay(50 / portTICK_PERIOD_MS);
     }
