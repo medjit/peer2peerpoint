@@ -128,10 +128,9 @@ static esp_err_t hello_get_handler(httpd_req_t *req)
     return ESP_OK;
 }
 
-/* Our URI handler function to be called during GET /uri request */
+
 esp_err_t get_home_handler(httpd_req_t *req)
 {
-    /* Send a simple response */
     const char resp[] = "This is home page";
     httpd_resp_send(req, resp, HTTPD_RESP_USE_STRLEN);
     return ESP_OK;
@@ -153,32 +152,21 @@ static const httpd_uri_t get_home = {
     .user_ctx = NULL
 };
 
-
-/* This handler allows the custom error handling functionality to be
- * tested from client side. For that, when a PUT request 0 is sent to
- * URI /ctrl, the /hello and /echo URIs are unregistered and following
- * custom error handler http_404_error_handler() is registered.
- * Afterwards, when /hello or /echo is requested, this custom error
- * handler is invoked which, after sending an error message to client,
- * either closes the underlying socket (when requested URI is /echo)
- * or keeps it open (when requested URI is /hello). This allows the
- * client to infer if the custom error handler is functioning as expected
- * by observing the socket state.
- */
-esp_err_t http_404_error_handler(httpd_req_t *req, httpd_err_code_t err)
+esp_err_t not_found_handler(httpd_req_t *req)
 {
-    if (strcmp("/hello", req->uri) == 0) {
-        httpd_resp_send_err(req, HTTPD_404_NOT_FOUND, "/hello URI is not available");
-        /* Return ESP_OK to keep underlying socket open */
-        return ESP_OK;
-    } else if (strcmp("/echo", req->uri) == 0) {
-        httpd_resp_send_err(req, HTTPD_404_NOT_FOUND, "/echo URI is not available");
-        /* Return ESP_FAIL to close underlying socket */
-        return ESP_FAIL;
+    char *html = WebUIRender_get404NotFoundPageHTML();
+    if (html == NULL) {
+        return ESP_ERR_NO_MEM;
     }
-    /* For any other URI send 404 and close socket */
-    httpd_resp_send_err(req, HTTPD_404_NOT_FOUND, "Some 404 error message");
-    return ESP_FAIL;
+    
+    // Set the status code to 404
+    httpd_resp_set_status(req, "404 Not Found");
+
+    // Send the HTML response
+    httpd_resp_send(req, html, HTTPD_RESP_USE_STRLEN);
+
+    free(html);
+    return ESP_OK;
 }
 
 static httpd_handle_t start_webserver(void)
@@ -204,6 +192,9 @@ static httpd_handle_t start_webserver(void)
         #if CONFIG_EXAMPLE_BASIC_AUTH
         httpd_register_basic_auth(server);
         #endif
+
+        // Set the global default handler for 404 not found
+        httpd_register_err_handler(server, HTTPD_404_NOT_FOUND, not_found_handler);
         return server;
     }
 
